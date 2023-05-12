@@ -7,19 +7,24 @@ class Player:
         self._results = []
         self._games_played = []
         
-    def results(self, new_result=None):
+    def results(self):
         from classes.result import Result
-        pass
+        return [r for r in Result.all if r.player == self ]
+ 
     
-    def games_played(self, new_game=None):
+    def games_played(self):
         from classes.game import Game
-        pass
+        return list(set([r.game for r in self.results()]))
     
     def played_game(self, game):
-        pass
-    
+        if game in self.games_played():
+            return True
+        else:
+            return False
+        
     def num_times_played(self, game):
-        pass
+        return len([r for r in self.results() if r.game == game])
+        
     
     @classmethod
     def highest_scored(cls, game):

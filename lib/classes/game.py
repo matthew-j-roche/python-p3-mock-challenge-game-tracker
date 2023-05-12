@@ -1,16 +1,19 @@
 class Game:
     def __init__(self, title):
-        self.title = title
-        self._results = []
-        self._players = []
+        if isinstance(title, str):
+            self.title = title
+            self._results = []
+            self._players = []
         
-    def results(self, new_result=None):
+    def results(self):
         from classes.result import Result
-        pass
+        return [r for r in Result.all if r.game == self ]
     
-    def players(self, new_player=None):
+    def players(self):
         from classes.player import Player
-        pass
+        return list(set([r.player for r in self.results()]))
     
     def average_score(self, player):
-        pass
+        game_scores = [r.score for r in self.results() if r.player == player]
+        return sum(game_scores) / len(game_scores)
+        
